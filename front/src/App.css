@@ -1,0 +1,30 @@
+#app-container {
+    background-color: #eee;
+    padding: 20px;
+    background-color: rgb(225, 225, 225);
+    border-radius: 0px 0px 10px 10px;
+}
+
+#header-row {
+    height: 150px;
+    /* margin: 0 auto; */
+    margin-bottom: 30px;
+}
+
+#top-logo {
+    height: 100%;
+    margin: 0 auto;
+}
+
+#first-row {
+    height: 400px;
+}
+
+#submit-button {
+    float: right;
+}
+
+#query-textarea {
+    height: 300px;
+    margin-bottom: 10px;
+}
