@@ -1,10 +1,136 @@
 import React, { Component } from 'react';
 import Form from 'react-bootstrap/Form';
 
-import WebCola from 'react-cola';
-import { Line } from 'react-lineto';
+import './Comparabilities.css';
+import * as d3 from "d3";
+// import * as cola from "webcola";
+// import WebCola from 'react-cola';
 
-export default class Comparabilities extends Component {
+// https://stackoverflow.com/questions/28540912/how-to-render-a-general-lattice-with-d3js
+
+
+class Comparabilities extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            lattices: [
+                {
+                    nodes: [
+                            { id: 0, name: 'ne' },
+                            { id: 1, name: 'u' },
+                            { id: 2, name: 'approx' },
+                            { id: 3, name: 'eq' },
+                           ],
+                    links: [
+                            { "source": 0, "target": 1},
+                            { "source": 0, "target": 2},
+                            { "source": 2, "target": 3},
+                            { "source": 1, "target": 3},
+                           ]
+                }
+            ],
+        };
+    }
+
+    componentDidMount(){
+        var margin = {top: 10, right: 10, bottom: 10, left: 10},
+        width = 400 - margin.left - margin.right,
+        height = 400 - margin.top - margin.bottom;
+
+        d3.select("svg").remove();
+
+        var svg = d3.select("#lattice_viz").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        // var data = this.state.lattices[0];
+
+        var graph = {
+            'diff': ['u', 'sim'],
+            'u': ['eq'],
+            'sim': ['eq'],
+        };
+
+        // finding bottom element
+        let node_set = new Set();
+        let pointed_node_set = new Set();
+        for (const [k, value] of Object.entries(graph)) {
+            node_set.add(k);
+            value.forEach(el=>{
+                node_set.add(el);
+                pointed_node_set.add(el);
+            })
+        }
+        console.log(node_set)
+        console.log(pointed_node_set)
+        let bottom_element = null;
+        for(const node of node_set) {
+            if(!pointed_node_set.has(node)){
+                bottom_element=node;
+            }
+        }        
+        
+        var nodes_groups = [
+            ['diff'],
+            ['u', 'sim'],
+            ['eq'],
+        ];
+
+        let nodes = {}
+
+        let v_spacing=1/(nodes_groups.length+1);
+        let curr_v = v_spacing;
+        for (const node_group of nodes_groups) {
+            let h_spacing = 1/(node_group.length+1)
+            let curr_h = h_spacing;
+            for(const node of node_group) {
+                nodes[node] = {
+                    cx: width*curr_h, 
+                    cy: height*curr_v,
+                    textx: width*curr_h+width*h_spacing*(curr_h-0.5),
+                    texty: height*curr_v+height*v_spacing*(curr_v-0.5)
+                }
+                curr_h+=h_spacing;
+            }
+            curr_v+=v_spacing;
+        }
+
+        for (const [key, value] of Object.entries(graph)) {
+            for(const link of value){
+                svg.append("line")
+                    .attr("x1", nodes[key].cx)
+                    .attr("y1", nodes[key].cy)
+                    .attr("x2", nodes[link].cx)
+                    .attr("y2", nodes[link].cy)
+            }
+        }
+
+        for (const [key, value] of Object.entries(nodes)) {
+            svg.append("circle")
+                .attr("cx", value.cx)
+                .attr("cy", value.cy)
+            svg.append("text")
+                .attr("x", value.textx)
+                .attr("y", value.texty)
+                .attr("text-anchor", 'middle')
+                .text(key)
+        }
+
+        svg.selectAll("circle")
+            .attr("r", 5)
+            .style("fill", "black")
+            .style("stroke", "white")
+            .style("stroke-width", 3)
+
+        svg.selectAll("line")
+            .style("stroke", "black")
+            .style("stroke-width", 3)
+
+        console.log("coucou")
+    }
+
     render() {
         return(
             <div>
@@ -14,122 +140,10 @@ export default class Comparabilities extends Component {
                     <option value="2">Relation Cémafroid</option>
                     <option value="3">Current Query</option>
                 </Form.Select>
-                <WebCola
-                    renderLayout={layout => (
-                        <>
-                        {layout.groups().map(
-                            ({ bounds: { x, X, y, Y } }, i) => {
-                            const width = X - x;
-                            const height = Y - y;
-                            return (
-                                <div
-                                key={i}
-                                style={{
-                                    position: 'absolute',
-                                    left: x,
-                                    top: y,
-                                    width,
-                                    height,
-                                    backgroundColor: 'orange',
-                                    borderRadius: 5,
-                                    zIndex: -2,
-                                }}
-                                />
-                            );
-                            },
-                        )}
-                        {layout.links().map(
-                            ({ source, target }, i) => {
-                            const { x, y } = source;
-                            const { x: x2, y: y2 } = target;
-                            return (
-                                <Line
-                                key={i}
-                                x0={x}
-                                y0={y}
-                                x1={x2}
-                                y1={y2}
-                                borderColor="blue"
-                                zIndex={-1}
-                                />
-                            );
-                            },
-                        )}
-                        {layout.nodes().map(
-                            ({x, y, width, height, name }, i) => (
-                            <div
-                                key={i}
-                                style={{
-                                position: 'absolute',
-                                left: x - width * 0.5,
-                                top: y - height * 0.5,
-                                width,
-                                height,
-                                backgroundColor: 'red',
-                                borderRadius: 5,
-                                }}
-                            >
-                                {name}
-                            </div>
-                            ),
-                        )}
-                        </>
-                    )}
-                    nodes={[
-                        {
-                        width: 60,
-                        height: 40,
-                        name: 'a',
-                        },
-                        {
-                        width: 60,
-                        height: 40,
-                        name: 'b',
-                        },
-                        {
-                        width: 60,
-                        height: 40,
-                        name: 'c',
-                        },
-                        {
-                        width: 60,
-                        height: 40,
-                        name: 'd',
-                        },
-                        {
-                        width: 60,
-                        height: 40,
-                        name: 'e',
-                        },
-                        {
-                        width: 60,
-                        height: 40,
-                        name: 'f',
-                        },
-                        {
-                        width: 60,
-                        height: 40,
-                        name: 'g',
-                        },
-                    ]}
-                    links={[
-                        { source: 1, target: 2 },
-                        { source: 2, target: 3 },
-                        { source: 3, target: 4 },
-                        { source: 0, target: 1 },
-                        { source: 2, target: 0 },
-                        { source: 3, target: 5 },
-                        { source: 0, target: 5 },
-                    ]}
-                    groups={[
-                        { leaves: [0], groups: [1] },
-                        { leaves: [1, 2] },
-                        { leaves: [3, 4] },
-                    ]}
-                    width={540}
-                    height={760}
-                />
+                <div id="lattice_viz"></div>
             </div>
         )
     }
 }
+
+export default Comparabilities;

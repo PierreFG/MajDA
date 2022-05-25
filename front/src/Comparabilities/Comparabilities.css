@@ -1,0 +1,27 @@
+/* text {
+    font: 10px sans-serif;
+}
+
+line {
+    stroke: #000;
+    stroke-width: 1.5px;
+}
+
+circle {
+    stroke: #fff;
+    stroke-width: 1.5px;
+} */
+
+#lattice_viz{
+    background-color: blue;
+    width: 100%;
+    height: auto;
+}
+
+#lattice_viz svg{
+    background-color: pink;
+}
+
+#lattice_viz svg g{
+    background-color: green;
+}
