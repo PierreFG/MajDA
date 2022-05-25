@@ -36,9 +36,11 @@ class Comparabilities extends Component {
         var margin = {top: 10, right: 10, bottom: 10, left: 10},
         width = 400 - margin.left - margin.right,
         height = 400 - margin.top - margin.bottom;
-
+        
+        // Delete any potential previous SVG
         d3.select("svg").remove();
 
+        // Init SVG for current lattice
         var svg = d3.select("#lattice_viz").append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
@@ -53,7 +55,7 @@ class Comparabilities extends Component {
             'sim': ['eq'],
         };
 
-        // finding bottom element
+        // Finds bottom element of the lattice
         let node_set = new Set();
         let pointed_node_set = new Set();
         for (const [k, value] of Object.entries(graph)) {
@@ -77,9 +79,9 @@ class Comparabilities extends Component {
             ['u', 'sim'],
             ['eq'],
         ];
-
+        
+        // Compute nodes placement from node_groups
         let nodes = {}
-
         let v_spacing=1/(nodes_groups.length+1);
         let curr_v = v_spacing;
         for (const node_group of nodes_groups) {
@@ -89,14 +91,15 @@ class Comparabilities extends Component {
                 nodes[node] = {
                     cx: width*curr_h, 
                     cy: height*curr_v,
-                    textx: width*curr_h+width*h_spacing*(curr_h-0.5),
-                    texty: height*curr_v+height*v_spacing*(curr_v-0.5)
+                    textx: width*(curr_h+h_spacing*(curr_h-0.5)),
+                    texty: height*(curr_v+v_spacing*(curr_v-0.5))
                 }
                 curr_h+=h_spacing;
             }
             curr_v+=v_spacing;
         }
 
+        // Draws links
         for (const [key, value] of Object.entries(graph)) {
             for(const link of value){
                 svg.append("line")
@@ -106,7 +109,11 @@ class Comparabilities extends Component {
                     .attr("y2", nodes[link].cy)
             }
         }
+        svg.selectAll("line")
+            .style("stroke", "black")
+            .style("stroke-width", 3)
 
+        // Draws nodes
         for (const [key, value] of Object.entries(nodes)) {
             svg.append("circle")
                 .attr("cx", value.cx)
@@ -117,15 +124,10 @@ class Comparabilities extends Component {
                 .attr("text-anchor", 'middle')
                 .text(key)
         }
-
         svg.selectAll("circle")
             .attr("r", 5)
             .style("fill", "black")
             .style("stroke", "white")
-            .style("stroke-width", 3)
-
-        svg.selectAll("line")
-            .style("stroke", "black")
             .style("stroke-width", 3)
 
         console.log("coucou")
