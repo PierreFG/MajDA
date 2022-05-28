@@ -13,15 +13,15 @@ circle {
 } */
 
 #lattice_viz{
-    background-color: blue;
+    /* background-color: blue; */
     width: 100%;
     height: auto;
 }
 
 #lattice_viz svg{
-    background-color: pink;
+    /* background-color: pink; */
 }
 
 #lattice_viz svg g{
-    background-color: green;
+    /* background-color: green; */
 }
