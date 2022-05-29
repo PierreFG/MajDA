@@ -1,7 +1,7 @@
+import './Comparabilities.css';
+
 import React, { Component } from 'react';
 import Form from 'react-bootstrap/Form';
-
-import './Comparabilities.css';
 
 import LatticeGrid from './LatticeGrid'
 
@@ -10,9 +10,10 @@ class Comparabilities extends Component {
         super(props);
         this.state = {
             tables: {},
-            filters: {},
+            avalaible_filters: [],
+            selected_filter: '',
             attrs_comp: {},
-            filtered_comps: []
+            filtered_comps: {}
         };
         this.handleCompFilterChange = this.handleCompFilterChange.bind(this);
     }
@@ -59,43 +60,59 @@ class Comparabilities extends Component {
             }
         }, () => {
             var avalaible_filters = [
-                ['All attributes','_*'],
-                ['Current query','_Q']
+                ['All attributes','_*']
+                // ['Current query','_Q']
             ]
             
             for(const table in this.state.tables) {
-                console.log(table);
                 avalaible_filters.push([`Table ${table}`,`_t:${table}`])
             }
 
             this.setState({
-                filters: {
-                    avalaible_filters: avalaible_filters,
-                    selected_filter: avalaible_filters[0][1]
-                }
+                avalaible_filters: avalaible_filters,
+                selected_filter: avalaible_filters[0][1]
             });
         });
     }
 
     handleCompFilterChange(event) {
-        
+        this.setState({
+            selected_filter: event.target.value
+        }, () => {
+            let target_value = this.state.selected_filter
+            if(target_value === '_*') {
+                this.setState(state => {
+                    return {
+                        filtered_comps: {...state.attrs_comp}
+                    }
+                });
+            } else if (target_value.substr(0,3) === '_t:') {
+                this.setState(state => {
+                    return {
+                        filtered_comps: {...state.attrs_comp}
+                    }
+                });
+            } else {
+                console.log('error')
+            }
+        })
+
     }
     
 
     render() {
         function CompFilterSelect(props) {
             var optionList = null;
-            if(props.options.avalaible_filters.length===0) {
+            if(props.avalaible_filters.length===0) {
                 optionList = <option value="1">Loading...</option>
             } else {
-                optionList = props.options.avalaible_filters.map((option) =>  
+                optionList = props.avalaible_filters.map((option) =>  
                     <option key={option[1]} value={option[1]}>{option[0]}</option>
                 ); 
             } 
             
             return (
-                // <Form.Select id="comp-filter-select" onChange={this.handleCompFilterChange}>
-                <Form.Select id="comp-filter-select"  onChange={props.onChangeCallback}>
+                <Form.Select id="comp-filter-select" value={props.selected_value} onChange={props.onChangeCallback}>
                     {optionList}
                 </Form.Select>
             );
@@ -104,11 +121,8 @@ class Comparabilities extends Component {
         return(
             <div>
                 <h5>COMPARBILITIES</h5>
-                Show <CompFilterSelect options={this.state.filters} onChangeCallback={this.handleCompFilterChange}/>
-                {/* <div id="lattice_viz">{}</div> */}
-                {/* <LatticeGrid /> */}
-                {/* <div id='LatticeGrid'></div> */}
-                <LatticeGrid />
+                Show <CompFilterSelect avalaible_filters={this.state.avalaible_filters} selected_value={this.state.selected_filter} onChangeCallback={this.handleCompFilterChange}/>
+                <LatticeGrid comp_data={this.state.filtered_comps}/>
             </div>
         )
     }
