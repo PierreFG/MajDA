@@ -1,7 +1,7 @@
 import './App.css';
 
 import majda_logo from "./logo.svg";
-import Comparabilities from './Comparabilities/Comparabilities'
+import Comparabilities from './Components/Comparabilities/Comparabilities'
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -14,7 +14,6 @@ import Form from 'react-bootstrap/Form';
 function App() {
   return (
     <Container id="app-container">
-      <Comparabilities/>
       <Row id='header-row'>
           <Col style= {{
                 height: "100%",
@@ -41,7 +40,7 @@ function App() {
         </Col>
 
         <Col>
-          
+          <Comparabilities/>
         </Col>
       </Row>
       <Row>

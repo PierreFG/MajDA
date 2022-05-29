@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import Form from 'react-bootstrap/Form';
 
-import './Comparabilities.css';
 import * as d3 from "d3";
 
 function analyse_lattice(lattice) {
@@ -27,7 +25,7 @@ function analyse_lattice(lattice) {
         }
     } 
     return {
-        nodes: node_set,
+        nodes: Array.from(node_set),
         top_element: top_element,
         bottom_element: bottom_element
     };
@@ -69,33 +67,14 @@ function make_groups(lattice, root){
     return levels.reverse();
 }
 
-function compute_nodes_placement(canvas_props, lattice, lattice_analysis) {
-    return 0;
-}
-
-class Comparabilities extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            lattices: [
-                {
-                    'a': ['b', 'c', 'd'],
-                    'b': ['e'],
-                    'c': ['e', 'f'],
-                    'd': ['f'],
-                    'e': ['g'],
-                    'f': ['g'],
-                }
-            ]
-        };
-    }
-
-    componentDidMount(){
+function draw_lattice() {
+    let data = this.state.attrs_comp;
+    for(let attr in data){
         let margin = 10;
         let canvas_props = {
             margin: margin,
-            width: 400 - 2*margin,
-            height: 400 - 2*margin
+            width: 250 - 2*margin,
+            height: 250 - 2*margin
         }
         
         // Delete any potential previous SVG
@@ -108,7 +87,7 @@ class Comparabilities extends Component {
         .append("g")
             .attr("transform", "translate(" + canvas_props.margin + "," + canvas_props.margin + ")");
 
-        let lattice = this.state.lattices[0];
+        let lattice = data[attr].lattice;
         let lattice_analysis = analyse_lattice(lattice);
         let nodes_groups = make_groups(lattice, lattice_analysis.bottom_element);
 
@@ -161,23 +140,20 @@ class Comparabilities extends Component {
             .style("fill", "black")
             .style("stroke", "#eee")
             .style("stroke-width", 3)
+    }
+}
 
-        console.log("coucou")
+class LatticeGrid extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {};
     }
 
     render() {
         return(
-            <div>
-                <h5>COMPARBILITIES</h5>
-                Show <Form.Select id="comp-filter-select">
-                    <option value="1">All attributes</option>
-                    <option value="2">Relation Cémafroid</option>
-                    <option value="3">Current Query</option>
-                </Form.Select>
-                <div id="lattice_viz"></div>
-            </div>
-        )
+            <div>Lattice Grid</div>
+        );
     }
 }
 
-export default Comparabilities;
+export default LatticeGrid;
