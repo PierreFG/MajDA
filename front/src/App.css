@@ -1,20 +1,24 @@
-#app-container {
-    background-color: #eee;
-    padding: 20px;
+#main-interface {
     background-color: rgb(225, 225, 225);
-    border-radius: 0px 0px 10px 10px;
+    padding: 20px;
+    border-radius: 6px;
 }
 
 #header-row {
-    height: 150px;
-    /* margin: 0 auto; */
-    margin-bottom: 30px;
+    border-radius: 0px 0px 6px 6px;
+    height: 110px;
+    color: #fff;
+    background-color: black;
+    padding: 20px;
+    margin-bottom: 10px;
 }
 
-#top-logo {
+/* #top-logo {
     height: 100%;
+    width: auto;
+    float: left;
     margin: 0 auto;
-}
+} */
 
 #first-row {
     height: 400px;

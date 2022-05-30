@@ -1,0 +1,21 @@
+.lattice-grid-container {
+    height: 280px;
+    overflow-x: hidden;
+    text-align: center;
+}
+
+.lattice-card {
+    height: 200px; 
+    width: 180px;
+    /* background-color: #eee; */
+    /* border: 3px solid #ccc;
+    border-radius: 5px; */
+    margin: 5px;
+    display: inline-block;
+}
+
+.lattice-card-meta {
+    height: 20%;
+    width: 100%;
+    padding: 10px;
+}

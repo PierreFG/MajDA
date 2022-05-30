@@ -119,8 +119,13 @@ class Comparabilities extends Component {
 
         return(
             <div>
-                <h5>COMPARBILITIES</h5>
-                <Form.Select id="comp-filter-select" value={this.state.selected_filter} onChange={this.handleCompFilterChange}>
+                <h5>COMPARABILITIES</h5>
+                <Form.Select 
+                    id="comp-filter-select" 
+                    value={this.state.selected_filter} 
+                    onChange={this.handleCompFilterChange}
+                    style= {{ marginBottom: '5px'}}
+                >
                     {optionList}
                 </Form.Select>
                 <LatticeGrid comp_data={this.state.filtered_comps}/>
