@@ -68,60 +68,61 @@ class Comparabilities extends Component {
                 avalaible_filters.push([`Table ${table}`,`_t:${table}`])
             }
 
-            this.setState({
-                avalaible_filters: avalaible_filters,
-                selected_filter: avalaible_filters[0][1]
+            this.setState(state => {
+                return {
+                    avalaible_filters: avalaible_filters,
+                    selected_filter: '_*',
+                    filtered_comps: {...state.attrs_comp}
+                }
             });
         });
     }
 
     handleCompFilterChange(event) {
-        this.setState({
-            selected_filter: event.target.value
-        }, () => {
-            let target_value = this.state.selected_filter
-            if(target_value === '_*') {
-                this.setState(state => {
-                    return {
-                        filtered_comps: {...state.attrs_comp}
-                    }
+        let target_value = event.target.value
+        if(target_value === '_*') {
+            this.setState(state => {
+                return {
+                    selected_filter: target_value,
+                    filtered_comps: {...state.attrs_comp}
+                }
+            });
+        } else if (target_value.substr(0,3) === '_t:') {
+            let splitted_target_value = target_value.split(':');
+            if(splitted_target_value.length >= 2) {
+                let table = splitted_target_value[1];
+                const filtered_comps = Object.keys(this.state.attrs_comp)
+                    .filter((key) => this.state.tables[table].includes(key))
+                    .reduce((obj, key) => {
+                        return Object.assign(obj, {
+                            [key]: this.state.attrs_comp[key]
+                        });
+                    }, {});
+                this.setState({
+                    selected_filter: target_value,
+                    filtered_comps: {...filtered_comps}
                 });
-            } else if (target_value.substr(0,3) === '_t:') {
-                this.setState(state => {
-                    return {
-                        filtered_comps: {...state.attrs_comp}
-                    }
-                });
-            } else {
-                console.log('error')
             }
-        })
-
+        } else {
+            console.log('error')
+        }
     }
     
 
     render() {
-        function CompFilterSelect(props) {
-            var optionList = null;
-            if(props.avalaible_filters.length===0) {
-                optionList = <option value="1">Loading...</option>
-            } else {
-                optionList = props.avalaible_filters.map((option) =>  
-                    <option key={option[1]} value={option[1]}>{option[0]}</option>
-                ); 
-            } 
-            
-            return (
-                <Form.Select id="comp-filter-select" value={props.selected_value} onChange={props.onChangeCallback}>
-                    {optionList}
-                </Form.Select>
-            );
+        var optionList = <option value="1">Loading...</option>;
+        if(this.state.avalaible_filters.length>0) {
+            optionList = this.state.avalaible_filters.map(option =>  
+                <option key={option[1]} value={option[1]}>{option[0]}</option>
+            ); 
         }
 
         return(
             <div>
                 <h5>COMPARBILITIES</h5>
-                Show <CompFilterSelect avalaible_filters={this.state.avalaible_filters} selected_value={this.state.selected_filter} onChangeCallback={this.handleCompFilterChange}/>
+                <Form.Select id="comp-filter-select" value={this.state.selected_filter} onChange={this.handleCompFilterChange}>
+                    {optionList}
+                </Form.Select>
                 <LatticeGrid comp_data={this.state.filtered_comps}/>
             </div>
         )

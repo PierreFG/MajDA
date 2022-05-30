@@ -2,15 +2,16 @@ import React, { Component } from 'react';
 
 class LatticeGrid extends Component {
     render() {
-        function GridConstructor(props) {
-            console.log(props.grid_data)
-            return(
-                <p></p>
-            );
+        var latticeGrid = <p>Loading...</p>;
+        if(Object.keys(this.props.comp_data).length > 0) {
+            latticeGrid = []
+            for(let attr in this.props.comp_data) {
+                latticeGrid.push(<p key={attr}>{attr}</p>)
+            }
         }
 
         return(
-            <GridConstructor grid_data={this.props.comp_data}/>
+            <div>{latticeGrid}</div>
         );
     }
 }
