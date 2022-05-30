@@ -74,8 +74,8 @@ function draw_lattice(divId, lattice) {
     let margin = 0;
     let canvas_props = {
         margin: margin,
-        width: 200 - 2*margin,
-        height: 200 - 2*margin
+        width: 180 - 2*margin,
+        height: 180 - 2*margin
     }
     
     // Delete any potential previous SVG
@@ -103,8 +103,8 @@ function draw_lattice(divId, lattice) {
             nodes[node] = {
                 cx: canvas_props.width*curr_h, 
                 cy: canvas_props.height*curr_v,
-                textx: canvas_props.width*(curr_h+h_spacing*(curr_h-0.5)),
-                texty: canvas_props.height*(curr_v+v_spacing*(curr_v-0.5))
+                textx: canvas_props.width*(curr_h+1.1*h_spacing*(curr_h-0.5)),
+                texty: canvas_props.height*(curr_v+1.5*v_spacing*(curr_v-0.45))
             }
             curr_h+=h_spacing;
         }
