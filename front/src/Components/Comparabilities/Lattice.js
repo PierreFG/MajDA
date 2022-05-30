@@ -139,7 +139,7 @@ function draw_lattice(divId, lattice) {
     svg.selectAll("circle")
         .attr("r", 5)
         .style("fill", "black")
-        .style("stroke", "#eee")
+        .style("stroke", "rgb(225, 225, 225)")
         .style("stroke-width", 3)
 }
 
