@@ -5,6 +5,8 @@ import Form from 'react-bootstrap/Form';
 
 import LatticeGrid from './LatticeGrid'
 
+import { ImEqualizer }from 'react-icons/im';
+
 class Comparabilities extends Component {
     constructor(props) {
         super(props);
@@ -119,7 +121,7 @@ class Comparabilities extends Component {
 
         return(
             <div>
-                <h5>COMPARABILITIES</h5>
+                <h5><ImEqualizer /> COMPARABILITIES</h5>
                 <Form.Select 
                     id="comp-filter-select" 
                     value={this.state.selected_filter} 

@@ -13,33 +13,16 @@
     margin-bottom: 10px;
 }
 
-/* #top-logo {
-    height: 100%;
-    width: auto;
-    float: left;
-    margin: 0 auto;
-} */
-
 #first-row {
     height: 400px;
 }
 
-#submit-button {
+.submit-button {
     float: right;
 }
 
-#query-textarea {
-    height: 300px;
+.query-textarea {
+    height: 250px;
     margin-bottom: 10px;
 }
 
-/* .link {
-    stroke: #000;
-    stroke-width: 1.5px;
-}
-
-.node {
-fill: #000;
-stroke: #fff;
-stroke-width: 1.5px;
-} */
