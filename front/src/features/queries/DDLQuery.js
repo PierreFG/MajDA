@@ -14,8 +14,10 @@ const DDLQuery = () => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        console.log(queryContent);
-        dmlQuery(queryContent.trim());
+        if(queryContent==='')
+            toast.error('Votre requête semble vide, faites un effort !');
+        else
+            dmlQuery(queryContent.trim());
     } 
 
     useEffect(() => {       
