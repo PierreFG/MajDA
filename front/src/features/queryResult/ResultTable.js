@@ -10,48 +10,39 @@ const ResultTable = (
 ) => {
     const columns = [];
     const dataSource = [];
-
-    console.log(data.data);
+    const nRows = data.data['nRows'];
 
     columns.push({
         name: rowNumberColName,
         header: ""
     });
+    console.log()
+    const columns_tab = Object.keys(data.data.result[0]);
+    columns.concat(columns_tab);
 
-    for (var m in data.data){
-        // console.lo
-        const column = data.data[m];
-        const columnName = column[0];
+    columns_tab.forEach((colName) => {
         columns.push({
-            name: columnName,
-            header: columnName
+            name: colName,
+            header: colName
         });
-    }
+    });
 
-    const n_rows = data.data[Object.keys(data.data)[0]][2].length;
-    for(let i=0; i<n_rows; i++){
-        dataSource.push({});
-        dataSource[i][rowNumberColName]=i;
-    }
-    // let i = 0;
-    for (var m in data.data){
-        // console.lo
-        const column = data.data[m];
-        const columnName = column[0];
-        console.log(column)
-        for(let i=0; i<n_rows; i++)
-            dataSource[i][columnName]=column[2][i];
-    }
+    for(let i=0; i<nRows; i++)
+        dataSource.push({[rowNumberColName]: i, ...data.data.result[i]});
 
     return (
-        <ReactDataGrid
-            idProperty={rowNumberColName}
-            columns={columns}
-            dataSource={dataSource}
-            pagination
-            style={gridStyle}
-            defaultLimit={10}
-        />
+        <>
+            <i>{nRows} tuples trouvés en {data.data['execTimeMs']}ms.</i>
+            <ReactDataGrid
+                idProperty={rowNumberColName}
+                columns={columns}
+                dataSource={dataSource}
+                pagination
+                style={gridStyle}
+                defaultLimit={10}
+            />
+        </>
+        
     )
 }
 

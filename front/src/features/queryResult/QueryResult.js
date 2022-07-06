@@ -8,7 +8,7 @@ import { useDmlQueryMutation } from '../../app/services/api';
 import ResultTable from './ResultTable';
 
 const QueryResult = () => {
-    const [dmlQuery, {data, isLoading, isSuccess, isError}] = useDmlQueryMutation({ fixedCacheKey: "queryResult" });
+    const [dmlQuery, {data, isLoading, isSuccess, isError, error}] = useDmlQueryMutation({ fixedCacheKey: "queryResult" });
 
     return (
         <div>
@@ -18,12 +18,17 @@ const QueryResult = () => {
                 spinner
             >
                 <div style={{minHeight: '200px'}}>
-                    { isSuccess && data!=null ? 
-                        <ResultTable data={data}/>
+                    { 
+                        isSuccess && data!=null ? 
+                            <ResultTable data={data}/>
                         : 
-                        <Alert key='danger' variant='danger'>
-                            Une erreur a eu lieu, votre requête est-elle correcte ?
-                        </Alert>
+                        isError ?
+                            <Alert key='danger' variant='danger'>
+                                Une erreur a eu lieu, votre requête est-elle correcte ?<br/>
+                                <i>{error.data.message}</i>
+                            </Alert>
+                        :
+                        <p>Pas de résultat pour le moment.</p> 
                     }
                 </div>
             </LoadingOverlay>
