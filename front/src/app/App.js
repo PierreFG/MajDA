@@ -22,9 +22,9 @@ const App = () => {
   return (
     <Container id="app-container">
       <Toaster />
-      <Row>
+      {/* <Row>
         <Header />
-      </Row>
+      </Row> */}
       <Row id="main-interface">
         <Row id='first-row'>
           <Col>

@@ -130,6 +130,8 @@ function draw_lattice(divId, lattice) {
         svg.append("circle")
             .attr("cx", value.cx)
             .attr("cy", value.cy)
+            .append('title')
+            .text(`comp fonction`);
         svg.append("text")
             .attr("x", value.textx)
             .attr("y", value.texty)

@@ -2,7 +2,7 @@ import '@inovua/reactdatagrid-community/index.css';
 
 import ReactDataGrid from "@inovua/reactdatagrid-community";
 
-const gridStyle = {};
+const gridStyle = { minHeight: '400px' };
 const rowNumberColName = "___PRIVATE_MAJDA"
 
 const ResultTable = (
@@ -14,7 +14,8 @@ const ResultTable = (
 
     columns.push({
         name: rowNumberColName,
-        header: ""
+        header: "",
+        defaultWidth: 80
     });
     console.log()
     const columns_tab = Object.keys(data.data.result[0]);
@@ -23,7 +24,8 @@ const ResultTable = (
     columns_tab.forEach((colName) => {
         columns.push({
             name: colName,
-            header: colName
+            header: colName,
+            render: ({ value }) => value ? value : <i>null</i>
         });
     });
 
