@@ -2,7 +2,7 @@ import '@inovua/reactdatagrid-community/index.css';
 
 import ReactDataGrid from "@inovua/reactdatagrid-community";
 
-const gridStyle = { minHeight: 400 };
+const gridStyle = {};
 const rowNumberColName = "___PRIVATE_MAJDA"
 
 const ResultTable = (

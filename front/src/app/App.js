@@ -11,6 +11,7 @@ import Tab from 'react-bootstrap/Tab';
 import { Toaster } from 'react-hot-toast';
 
 import DDLQuery from '../features/queries/DDLQuery';
+import DMLQuery from '../features/queries/DMLQuery';
 import Comparabilities from '../features/comparabilities/Comparabilities';
 import Header from '../features/layout/Header';
 import QueryResult from '../features/queryResult/QueryResult';
@@ -33,10 +34,7 @@ const App = () => {
                 <DDLQuery />
               </Tab>
               <Tab eventKey="dml" title="DML Query" className='query-tab'>
-                <Form.Control as="textarea" id="dml-query-textarea"/>
-                <Button variant="primary" type="submit" id="dml-submit-button">
-                  Submit
-                </Button>
+                <DMLQuery />
               </Tab>
             </Tabs>
             

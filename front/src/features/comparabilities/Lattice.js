@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { useEffect } from 'react';
 
 import * as d3 from "d3";
 
@@ -143,16 +143,19 @@ function draw_lattice(divId, lattice) {
         .style("stroke-width", 3)
 }
 
-class Lattice extends Component {
-    componentDidMount(){
-        draw_lattice(this.props.name, this.props.data.lattice);
-    }
+const Lattice = ({
+    name,
+    data
+}) => {
 
-    render() {
-        return(
-            <div id={this.props.name}></div>
-        );
-    }
+    useEffect(() => {
+        return draw_lattice(name, data);
+    });
+    
+
+    return(
+        <div id={name}></div>
+    );
 }
 
 export default Lattice;
