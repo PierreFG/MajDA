@@ -17,7 +17,12 @@ const ResultTable = (
         header: "",
         defaultWidth: 80
     });
-    console.log()
+    console.log(data.data.result);
+
+    if(data.data.result.length === 0) {
+        return <i>0 tuples trouvés en {data.data['execTimeMs']}ms.</i>
+    }
+
     const columns_tab = Object.keys(data.data.result[0]);
     columns.concat(columns_tab);
 
